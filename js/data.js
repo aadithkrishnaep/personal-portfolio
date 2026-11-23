@@ -185,9 +185,9 @@ const workClippings = [
 
 // About screen featured artwork
 const aboutArtwork = {
-  title: "Partie de bateau",
-  artist: "Gustave Caillebotte",
-  year: "1877-1878",
-  location: "Musée d'Orsay, Paris",
-  image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Gustave_Caillebotte_-_Partie_de_bateau_-_Mus%C3%A9e_d%27Orsay.jpg/800px-Gustave_Caillebotte_-_Partie_de_bateau_-_Mus%C3%A9e_d%27Orsay.jpg"
+  title: "Video editior",
+  artist: "Aadith Krishna E P",
+  year: "2026",
+  location: "thrissur,kerala",
+  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfLB6HvDTUfwG2Y73c4San1QSaMtJQKUWP-ZxoHLO8fQ&s=10",
 };
