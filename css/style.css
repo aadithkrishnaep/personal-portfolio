@@ -1,11 +1,12 @@
 /* ==========================================================================
-   Editorial Caillebotte / Musée d'Orsay Inspired Design System
+   Editorial Underwater Ocean Theme Design System
    Color Palette:
-   - Deep Ink Black: #000000
-   - Terracotta / Rust: #9e4531
-   - Canvas / Warm Gallery Paper: #f2efef
-   - Hairline Grid Line: #ded8d5 (rgba(0,0,0,0.12))
-   - Frame / Taupe Surround: #9e8b88
+   - Deep Abyssal Base: #020b14
+   - Ocean Canvas: rgba(6, 22, 38, 0.65)
+   - Luminous Sea-Pearl Text: #f0fdfa
+   - Soft Aquatic Cyan / Accent: #38bdf8
+   - Water Hairline Grid: rgba(56, 189, 248, 0.16)
+   - Deep Frame Surround: #020b14
    Typography:
    - Primary Serif: 'Playfair Display', Georgia, serif
    - Secondary Sans: 'Inter', system-ui, -apple-system, sans-serif
@@ -14,12 +15,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400;1,600&display=swap');
 
 :root {
-  --color-canvas: #f2efef;
-  --color-ink: #000000;
-  --color-rust: #9e4531;
-  --color-border: #ded8d5;
-  --color-border-subtle: rgba(0, 0, 0, 0.08);
-  --color-surround: #9e8b88;
+  --color-canvas: rgba(6, 22, 38, 0.30);
+  --color-canvas-solid: #061626;
+  --color-ink: #f0fdfa;
+  --color-ink-muted: #94a3b8;
+  --color-rust: #38bdf8;
+  --color-rust-hover: #0ea5e9;
+  --color-border: rgba(56, 189, 248, 0.18);
+  --color-border-subtle: rgba(56, 189, 248, 0.08);
+  --color-surround: #020b14;
+  --color-card-bg: rgba(6, 26, 46, 0.30);
   --rail-width: 56px;
 }
 
@@ -38,6 +43,36 @@ html, body {
   overflow-x: hidden;
 }
 
+/* ================= Fullscreen Video Background ================= */
+.video-background-wrapper {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+  background-color: #020b14;
+}
+
+.video-background {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  opacity: 0.3; /* Exactly 30% opacity */
+  transition: opacity 0.3s ease;
+}
+
+.video-overlay {
+  display: none; /* Removed heavy overlay so video is crisp and clean at 30% opacity */
+}
+
 /* Serif font helper */
 .font-serif {
   font-family: 'Playfair Display', Georgia, serif;
@@ -52,18 +87,23 @@ html, body {
   max-width: 1540px;
   min-height: 100vh;
   margin: 0 auto;
-  background-color: var(--color-canvas);
+  background-color: transparent;
   position: relative;
-  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.85);
+  border-left: 1px solid var(--color-border);
+  border-right: 1px solid var(--color-border);
   display: flex;
   overflow: hidden;
+  z-index: 10;
 }
 
 /* Persistent Left Vertical Rail */
 .left-nav-rail {
   width: var(--rail-width);
   min-width: var(--rail-width);
-  background-color: var(--color-canvas);
+  background-color: rgba(3, 14, 25, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-right: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
@@ -78,17 +118,18 @@ html, body {
 .menu-trigger-sq {
   width: var(--rail-width);
   height: var(--rail-width);
-  background-color: var(--color-ink);
+  background: linear-gradient(135deg, #0284c7, #0ea5e9);
   color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .menu-trigger-sq:hover {
-  background-color: var(--color-rust);
+  background: #38bdf8;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
 }
 
 .rail-monogram {
@@ -107,12 +148,18 @@ html, body {
   line-height: 1;
   font-weight: 700;
   letter-spacing: -0.5px;
+  color: var(--color-ink);
+  transition: color 0.2s ease;
+}
+
+.rail-monogram:hover .mono-letter {
+  color: var(--color-rust);
 }
 
 .rail-monogram .mono-bar {
   width: 14px;
   height: 1.5px;
-  background-color: var(--color-ink);
+  background-color: var(--color-rust);
   margin: 3px 0;
 }
 
@@ -122,7 +169,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-ink);
+  color: var(--color-ink-muted);
   cursor: pointer;
   transition: color 0.2s;
 }
@@ -151,6 +198,7 @@ html, body {
 }
 .slides-deck::-webkit-scrollbar-thumb {
   background-color: var(--color-border);
+  border-radius: 4px;
 }
 
 /* Individual Slide Section */
@@ -162,7 +210,7 @@ html, body {
   position: relative;
   display: flex;
   flex-direction: column;
-  background-color: var(--color-canvas);
+  background-color: transparent;
   border-bottom: 1px solid var(--color-border);
   overflow: hidden;
 }
@@ -195,7 +243,9 @@ html, body {
   right: calc((100vw - min(100vw, 1540px)) / 2);
   width: var(--rail-width);
   height: var(--rail-width);
-  background-color: var(--color-canvas);
+  background-color: rgba(3, 14, 25, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-left: 1px solid var(--color-border);
   border-bottom: 1px solid var(--color-border);
   display: flex;
@@ -204,12 +254,13 @@ html, body {
   color: var(--color-ink);
   cursor: pointer;
   z-index: 45;
-  transition: background-color 0.2s, color 0.2s;
+  transition: all 0.2s ease;
 }
 
 .top-search-btn:hover {
-  background-color: var(--color-ink);
-  color: #ffffff;
+  background-color: var(--color-rust);
+  color: #020b14;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
 }
 
 .bottom-scroll-btn {
@@ -218,18 +269,19 @@ html, body {
   right: calc((100vw - min(100vw, 1540px)) / 2);
   width: var(--rail-width);
   height: var(--rail-width);
-  background-color: var(--color-ink);
+  background: linear-gradient(135deg, #0284c7, #0ea5e9);
   color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 45;
-  transition: background-color 0.2s, transform 0.2s;
+  transition: all 0.2s ease;
 }
 
 .bottom-scroll-btn:hover {
-  background-color: var(--color-rust);
+  background: #38bdf8;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
 }
 
 /* Staggered Artwork Cards & Captions */
@@ -248,15 +300,15 @@ html, body {
   width: 100%;
   height: auto;
   object-fit: cover;
-  background-color: #e5e0dc;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  background-color: #071f36;
+  border: 1px solid rgba(56, 189, 248, 0.2);
 }
 
 .artwork-caption {
   font-family: 'Inter', system-ui, sans-serif;
   font-size: 11px;
   line-height: 1.35;
-  color: #262626;
+  color: #cbd5e1;
   margin-top: 6px;
 }
 
@@ -267,38 +319,42 @@ html, body {
 
 .artwork-caption .caption-title {
   font-weight: 600;
-  color: #000000;
+  color: var(--color-ink);
 }
 
 .artwork-caption .caption-meta {
   font-weight: 400;
-  color: #555555;
+  color: #7dd3fc;
 }
 
-/* Category Filter Pills (Editorial Style) */
+/* Category Filter Pills (Editorial Aquatic Style) */
 .editorial-tab {
   padding: 6px 14px;
   font-size: 12px;
   font-weight: 500;
   border-radius: 9999px;
-  border: 1px solid var(--color-border);
-  background: transparent;
-  color: var(--color-ink);
+  border: 1px solid rgba(56, 189, 248, 0.28);
+  background: rgba(4, 20, 36, 0.65);
+  color: #bae6fd;
   cursor: pointer;
   transition: all 0.2s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .editorial-tab.active,
 .editorial-tab:hover {
-  background-color: var(--color-ink);
+  background: linear-gradient(135deg, #0284c7, #0ea5e9);
   color: #ffffff;
-  border-color: var(--color-ink);
+  border-color: #38bdf8;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
 }
 
 .editorial-tab.active-rust {
   background-color: var(--color-rust);
-  color: #ffffff;
+  color: #020b14;
   border-color: var(--color-rust);
+  font-weight: 600;
 }
 
 /* Overlay Drawers (Menu & Search) */
@@ -308,13 +364,15 @@ html, body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(242, 239, 239, 0.98);
-  backdrop-filter: blur(8px);
+  background-color: rgba(3, 14, 26, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   z-index: 60;
   display: flex;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.25s ease;
+  color: var(--color-ink);
 }
 
 .editorial-drawer.open {
@@ -326,8 +384,9 @@ html, body {
 .editorial-modal-backdrop {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(5px);
+  background-color: rgba(2, 8, 16, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   z-index: 70;
   display: flex;
   align-items: center;
@@ -344,16 +403,18 @@ html, body {
 }
 
 .editorial-modal-card {
-  background-color: var(--color-canvas);
+  background-color: rgba(4, 20, 36, 0.96);
   max-width: 840px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
-  border: 1px solid var(--color-border);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
   position: relative;
   transform: translateY(12px);
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  color: var(--color-ink);
+  border-radius: 8px;
 }
 
 .editorial-modal-backdrop.open .editorial-modal-card {
@@ -366,13 +427,14 @@ html, body {
   bottom: 24px;
   left: 50%;
   transform: translateX(-50%) translateY(20px);
-  background-color: var(--color-ink);
-  color: #ffffff;
+  background-color: rgba(3, 20, 36, 0.95);
+  color: var(--color-rust);
+  border: 1px solid var(--color-rust);
   padding: 10px 20px;
   font-size: 13px;
   font-weight: 500;
   border-radius: 4px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
   z-index: 80;
   opacity: 0;
   pointer-events: none;

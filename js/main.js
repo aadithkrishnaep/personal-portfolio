@@ -1,5 +1,5 @@
 /**
- * Editorial Caillebotte / Musée d'Orsay Portfolio Logic
+ * Editorial Underwater / Ocean Portfolio Logic
  * Handles slide-snap progression, menu/search drawers, clippings filtering, and inspection modals.
  */
 
@@ -14,6 +14,19 @@ document.addEventListener("DOMContentLoaded", () => {
   setupModalDismiss();
   setupContactForm();
 
+  // Ensure background video is playing smoothly
+  const bgVideo = document.getElementById("bg-video");
+  if (bgVideo) {
+    bgVideo.muted = true;
+    bgVideo.defaultMuted = true;
+    const tryPlay = () => {
+      bgVideo.play().catch(() => {});
+    };
+    tryPlay();
+    document.addEventListener("click", tryPlay, { once: true });
+    document.addEventListener("touchstart", tryPlay, { once: true });
+  }
+
   // Initialize Lucide icons if available
   if (window.lucide) {
     window.lucide.createIcons();
@@ -21,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // -------------------------------------------------------------
-// 1. Hero Screen Rendering (Image 1 & 2 layout)
+// 1. Hero Screen Rendering
 // -------------------------------------------------------------
 function renderHeroContent() {
   // Title & Dates
@@ -30,7 +43,7 @@ function renderHeroContent() {
   if (titleEl) {
     titleEl.innerHTML = `
       <span class="block">${personalInfo.exhibitionTitle}</span>
-      <span class="block italic font-normal">${personalInfo.exhibitionSubtitle}</span>
+      <span class="block italic font-normal text-sky-100">${personalInfo.exhibitionSubtitle}</span>
     `;
   }
   if (subtitleEl) {
@@ -47,7 +60,7 @@ function renderHeroContent() {
   if (tlContainer) {
     tlContainer.innerHTML = `
       <div class="artwork-container cursor-pointer group" onclick="openExhibitDetail('topLeft')">
-        <div class="overflow-hidden bg-[#e2dedb] max-w-[280px] shadow-sm">
+        <div class="overflow-hidden bg-[#071f36] max-w-[280px] shadow-lg border border-sky-400/25 rounded-sm">
           <img src="${tl.image}" alt="${tl.title}" class="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-500" loading="eager" />
         </div>
         <div class="artwork-caption mt-2">
@@ -66,7 +79,7 @@ function renderHeroContent() {
           <div class="caption-title">${bl.title}</div>
           <div class="caption-meta">${bl.subtitle}</div>
         </div>
-        <div class="overflow-hidden bg-[#e2dedb] max-w-[240px] shadow-sm">
+        <div class="overflow-hidden bg-[#071f36] max-w-[240px] shadow-lg border border-sky-400/25 rounded-sm">
           <img src="${bl.image}" alt="${bl.title}" class="w-full aspect-[2/3] object-cover group-hover:scale-105 transition-transform duration-500" loading="eager" />
         </div>
       </div>
@@ -77,7 +90,7 @@ function renderHeroContent() {
   if (trContainer) {
     trContainer.innerHTML = `
       <div class="artwork-container cursor-pointer group" onclick="openExhibitDetail('topRight')">
-        <div class="overflow-hidden bg-[#e2dedb] max-w-[260px] shadow-sm">
+        <div class="overflow-hidden bg-[#071f36] max-w-[260px] shadow-lg border border-sky-400/25 rounded-sm">
           <img src="${tr.image}" alt="${tr.title}" class="w-full aspect-[3/4] object-cover group-hover:scale-105 transition-transform duration-500" loading="eager" />
         </div>
         <div class="artwork-caption mt-2">
@@ -96,7 +109,7 @@ function renderHeroContent() {
           <div class="caption-title">${br.title}</div>
           <div class="caption-meta">${br.subtitle}</div>
         </div>
-        <div class="overflow-hidden bg-[#e2dedb] max-w-[290px] shadow-sm">
+        <div class="overflow-hidden bg-[#071f36] max-w-[290px] shadow-lg border border-sky-400/25 rounded-sm">
           <img src="${br.image}" alt="${br.title}" class="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-500" loading="eager" />
         </div>
       </div>
@@ -105,7 +118,7 @@ function renderHeroContent() {
 }
 
 // -------------------------------------------------------------
-// 2. About Screen Rendering (Image 3 layout)
+// 2. About Screen Rendering
 // -------------------------------------------------------------
 function renderAboutContent() {
   const bioP1 = document.getElementById("about-p1");
@@ -120,7 +133,7 @@ function renderAboutContent() {
     disciplinesList.innerHTML = personalInfo.disciplines
       .map(
         (disc) => `
-        <span class="inline-block text-xs font-medium px-2.5 py-1 border border-black/15 bg-white/50 text-black">
+        <span class="inline-block text-xs font-medium px-2.5 py-1 border border-sky-400/25 bg-[#031526]/80 text-sky-200 rounded-sm">
           ${disc}
         </span>
       `
@@ -129,14 +142,22 @@ function renderAboutContent() {
   }
 
   if (aboutArt) {
+    const defaultArtwork = {
+      title: "Partie de bateau",
+      artist: "Gustave Caillebotte",
+      year: "1877–1878",
+      location: "Musée d'Orsay, Paris",
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Partie_de_bateau_-_Gustave_Caillebotte_-_Mus%C3%A9e_d%27Orsay.jpg/1280px-Partie_de_bateau_-_Gustave_Caillebotte_-_Mus%C3%A9e_d%27Orsay.jpg"
+    };
+
     aboutArt.innerHTML = `
-      <div class="artwork-container group" onclick="openModalWithCustomContent('${aboutArtwork.title}', '${aboutArtwork.artist}, ${aboutArtwork.year}', '${aboutArtwork.location}', 'From the permanent collection of the Musée d\\'Orsay, showcasing Gustave Caillebotte\\'s mastery of light and realism.', '${aboutArtwork.image}', 'https://www.musee-orsay.fr')">
-        <div class="overflow-hidden bg-[#e2dedb] max-w-[340px] shadow-sm">
-          <img src="${aboutArtwork.image}" alt="${aboutArtwork.title}" class="w-full aspect-[16/10] object-cover group-hover:scale-105 transition-transform duration-500" />
+      <div class="artwork-container group" onclick="openModalWithCustomContent('${defaultArtwork.title}', '${defaultArtwork.artist}, ${defaultArtwork.year}', '${defaultArtwork.location}', 'From the permanent collection of the Musée d\\'Orsay, showcasing mastery of water, reflection, and light.', '${defaultArtwork.image}', 'https://www.musee-orsay.fr')">
+        <div class="overflow-hidden bg-[#071f36] max-w-[340px] shadow-lg border border-sky-400/25 rounded-sm">
+          <img src="${defaultArtwork.image}" alt="${defaultArtwork.title}" class="w-full aspect-[16/10] object-cover group-hover:scale-105 transition-transform duration-500" />
         </div>
         <div class="artwork-caption mt-2">
-          <div class="caption-title">${aboutArtwork.title}</div>
-          <div class="caption-meta">${aboutArtwork.artist}, ${aboutArtwork.year}</div>
+          <div class="caption-title">${defaultArtwork.title}</div>
+          <div class="caption-meta">${defaultArtwork.artist}, ${defaultArtwork.year}</div>
         </div>
       </div>
     `;
@@ -144,7 +165,7 @@ function renderAboutContent() {
 }
 
 // -------------------------------------------------------------
-// 3. Clippings Gallery Rendering (Images 3 & 4 layout)
+// 3. Clippings Gallery Rendering
 // -------------------------------------------------------------
 let activeFilter = "all";
 
@@ -168,8 +189,8 @@ function renderClippingsGallery(category = "all", searchQuery = "") {
   if (filtered.length === 0) {
     container.innerHTML = `
       <div class="col-span-full py-20 text-center">
-        <p class="font-serif text-2xl text-black/40 italic">No corresponding clippings found.</p>
-        <button onclick="renderClippingsGallery('all')" class="mt-4 text-xs font-semibold uppercase tracking-widest text-[#9e4531] underline">
+        <p class="font-serif text-2xl text-sky-200/50 italic">No corresponding clippings found.</p>
+        <button onclick="renderClippingsGallery('all')" class="mt-4 text-xs font-semibold uppercase tracking-widest text-[#38bdf8] hover:text-[#7dd3fc] underline">
           Reset Filter Catalogue
         </button>
       </div>
@@ -180,39 +201,39 @@ function renderClippingsGallery(category = "all", searchQuery = "") {
   container.innerHTML = filtered
     .map((item) => {
       return `
-      <div class="artwork-container border border-black/10 bg-white/40 p-4 flex flex-col justify-between group" onclick="openClipModal('${item.id}')">
+      <div class="artwork-container border border-sky-400/20 bg-[#05192d]/70 backdrop-blur-md p-4 flex flex-col justify-between group rounded-sm shadow-md hover:border-sky-400/40" onclick="openClipModal('${item.id}')">
         <div>
           <!-- Date & Publication meta -->
-          <div class="text-[10px] uppercase tracking-wider text-black/50 font-medium mb-1.5 flex items-center justify-between">
+          <div class="text-[10px] uppercase tracking-wider text-sky-200/60 font-medium mb-1.5 flex items-center justify-between">
             <span>${item.date}</span>
-            <span class="text-[#9e4531] font-bold">${item.type}</span>
+            <span class="text-[#38bdf8] font-bold">${item.type}</span>
           </div>
 
           <!-- Title in Playfair Display -->
-          <h3 class="font-serif text-lg md:text-xl font-bold leading-snug text-black group-hover:text-[#9e4531] transition-colors mb-3">
+          <h3 class="font-serif text-lg md:text-xl font-bold leading-snug text-[#f0fdfa] group-hover:text-[#38bdf8] transition-colors mb-3">
             ${item.title}
           </h3>
 
           <!-- Artwork / Clipping Visual -->
-          <div class="overflow-hidden bg-[#e2dedb] mb-3 aspect-[16/10] relative">
+          <div class="overflow-hidden bg-[#071f36] mb-3 aspect-[16/10] relative border border-sky-400/20 rounded-sm">
             <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-            <div class="absolute bottom-0 inset-x-0 bg-black/70 text-white text-[10px] px-2 py-1 truncate font-mono">
+            <div class="absolute bottom-0 inset-x-0 bg-[#020b14]/85 text-sky-200 text-[10px] px-2 py-1 truncate font-mono">
               ${item.caption}
             </div>
           </div>
 
           <!-- Excerpt -->
-          <p class="text-xs text-black/75 leading-relaxed line-clamp-3 mb-3">
+          <p class="text-xs text-sky-100/75 leading-relaxed line-clamp-3 mb-3">
             ${item.excerpt}
           </p>
         </div>
 
         <!-- Tags and Metric Footer -->
-        <div class="pt-3 border-t border-black/10 flex items-center justify-between text-[11px]">
-          <div class="text-[#9e4531] font-semibold truncate mr-2">
+        <div class="pt-3 border-t border-sky-400/20 flex items-center justify-between text-[11px]">
+          <div class="text-[#38bdf8] font-semibold truncate mr-2">
             ${item.metrics || item.publisher}
           </div>
-          <span class="inline-flex items-center gap-1 font-semibold text-black uppercase tracking-wider text-[10px] group-hover:translate-x-1 transition-transform">
+          <span class="inline-flex items-center gap-1 font-semibold text-sky-200 uppercase tracking-wider text-[10px] group-hover:translate-x-1 group-hover:text-[#38bdf8] transition-all">
             Inspect <i data-lucide="arrow-right" class="w-3 h-3"></i>
           </span>
         </div>
@@ -268,7 +289,7 @@ function setupSlideSnapController() {
     updateScrollButtonState();
   });
 
-  // Clicking bottom-right black square button advances to next slide or loops to top
+  // Clicking bottom-right button advances to next slide or loops to top
   scrollDownBtn.addEventListener("click", () => {
     if (currentSlideIndex < slideIds.length - 1) {
       currentSlideIndex += 1;
@@ -380,7 +401,7 @@ function setupSearch() {
   searchInput.addEventListener("input", (e) => {
     const val = e.target.value.toLowerCase().trim();
     if (val === "") {
-      searchResults.innerHTML = `<p class="text-xs uppercase tracking-widest text-black/40">Start typing to search titles, publications, or topics...</p>`;
+      searchResults.innerHTML = `<p class="text-xs uppercase tracking-widest text-sky-300/50">Start typing to search titles, publications, or topics...</p>`;
       return;
     }
 
@@ -393,20 +414,20 @@ function setupSearch() {
     );
 
     if (matches.length === 0) {
-      searchResults.innerHTML = `<p class="text-sm font-serif italic text-black/50">No matching items found for "${val}".</p>`;
+      searchResults.innerHTML = `<p class="text-sm font-serif italic text-sky-200/60">No matching items found for "${val}".</p>`;
       return;
     }
 
     searchResults.innerHTML = matches
       .map(
         (item) => `
-        <div class="py-3 border-b border-black/10 cursor-pointer hover:pl-2 transition-all flex items-center justify-between" onclick="openClipModal('${item.id}'); closeDrawer('search-drawer');">
+        <div class="py-3 border-b border-sky-400/20 cursor-pointer hover:pl-2 transition-all flex items-center justify-between group" onclick="openClipModal('${item.id}'); closeDrawer('search-drawer');">
           <div>
-            <div class="text-[10px] uppercase font-bold text-[#9e4531]">${item.type} • ${item.dateShort}</div>
-            <div class="font-serif text-base font-bold text-black">${item.title}</div>
-            <div class="text-xs text-black/60">${item.publisher}</div>
+            <div class="text-[10px] uppercase font-bold text-[#38bdf8]">${item.type} • ${item.dateShort}</div>
+            <div class="font-serif text-base font-bold text-[#f0fdfa] group-hover:text-[#38bdf8] transition-colors">${item.title}</div>
+            <div class="text-xs text-sky-200/60">${item.publisher}</div>
           </div>
-          <span class="text-xs text-[#9e4531] font-semibold">Read</span>
+          <span class="text-xs text-[#38bdf8] font-semibold">Read</span>
         </div>
       `
       )
@@ -455,31 +476,31 @@ function openModalWithCustomContent(title, subtitle, meta, description, imageUrl
 
   modalBody.innerHTML = `
     <!-- Top Image Feature -->
-    <div class="relative bg-black max-h-[380px] overflow-hidden">
+    <div class="relative bg-[#020b14] max-h-[380px] overflow-hidden">
       <img src="${imageUrl}" alt="${title}" class="w-full h-full object-contain mx-auto" />
-      <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-4 text-white">
-        <span class="text-[10px] uppercase tracking-widest bg-white/20 px-2 py-0.5 rounded-sm backdrop-blur-sm">${meta}</span>
-        <h2 class="font-serif text-2xl md:text-3xl font-bold mt-1 leading-tight">${title}</h2>
-        <p class="text-xs text-white/80 mt-0.5">${subtitle}</p>
+      <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-[#020b14] via-[#020b14]/75 to-transparent p-4 text-[#f0fdfa]">
+        <span class="text-[10px] uppercase tracking-widest bg-sky-500/20 border border-sky-400/30 px-2 py-0.5 rounded-sm backdrop-blur-sm text-[#38bdf8]">${meta}</span>
+        <h2 class="font-serif text-2xl md:text-3xl font-bold mt-1 leading-tight text-[#f0fdfa]">${title}</h2>
+        <p class="text-xs text-sky-200/80 mt-0.5">${subtitle}</p>
       </div>
     </div>
 
     <!-- Content Breakdown -->
     <div class="p-6 md:p-8 space-y-6">
-      ${metric ? `<div class="text-xs font-bold uppercase tracking-wider text-[#9e4531] border-b border-black/10 pb-2">Traction & Reception: ${metric}</div>` : ""}
+      ${metric ? `<div class="text-xs font-bold uppercase tracking-wider text-[#38bdf8] border-b border-sky-400/20 pb-2">Traction & Reception: ${metric}</div>` : ""}
 
       <div>
-        <h4 class="text-[11px] uppercase tracking-widest font-bold text-black/50 mb-2">Exhibition Analysis & Key Takeaways</h4>
-        <p class="text-sm md:text-base text-black/85 leading-relaxed font-sans">${description}</p>
+        <h4 class="text-[11px] uppercase tracking-widest font-bold text-sky-400/80 mb-2">Exhibition Analysis & Key Takeaways</h4>
+        <p class="text-sm md:text-base text-sky-100/90 leading-relaxed font-sans">${description}</p>
       </div>
 
       ${
-        tags.length > 0
+        tags && tags.length > 0
           ? `
         <div>
-          <h4 class="text-[11px] uppercase tracking-widest font-bold text-black/50 mb-2">Disciplines & Index Tokens</h4>
+          <h4 class="text-[11px] uppercase tracking-widest font-bold text-sky-400/80 mb-2">Disciplines & Index Tokens</h4>
           <div class="flex flex-wrap gap-1.5">
-            ${tags.map((t) => `<span class="text-xs px-2.5 py-1 bg-black/5 border border-black/10 text-black font-medium">#${t}</span>`).join("")}
+            ${tags.map((t) => `<span class="text-xs px-2.5 py-1 bg-sky-950/60 border border-sky-400/30 text-sky-200 font-medium rounded-sm">#${t}</span>`).join("")}
           </div>
         </div>
       `
@@ -487,15 +508,15 @@ function openModalWithCustomContent(title, subtitle, meta, description, imageUrl
       }
 
       <!-- Actions -->
-      <div class="pt-6 border-t border-black/10 flex items-center justify-between">
-        <button onclick="closeEditorialModal()" class="text-xs font-bold uppercase tracking-widest text-black/60 hover:text-black">
+      <div class="pt-6 border-t border-sky-400/20 flex items-center justify-between">
+        <button onclick="closeEditorialModal()" class="text-xs font-bold uppercase tracking-widest text-sky-300/70 hover:text-[#38bdf8] transition-colors">
           Dismiss
         </button>
 
         ${
           externalLink
             ? `
-          <a href="${externalLink}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-2.5 bg-black text-white hover:bg-[#9e4531] transition-colors text-xs uppercase tracking-widest font-semibold">
+          <a href="${externalLink}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-sky-600 to-cyan-500 hover:from-sky-500 hover:to-cyan-400 text-white transition-all text-xs uppercase tracking-widest font-semibold rounded-sm shadow-md">
             <span>Access Full Work</span>
             <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
           </a>
