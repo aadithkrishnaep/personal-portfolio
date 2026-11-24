@@ -82,6 +82,33 @@ html, body {
   font-family: 'Inter', system-ui, sans-serif;
 }
 
+/* Hero Title Editorial Typography (Strictly 2 lines across mobile & desktop) */
+.hero-title-editorial {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2rem, 8vw, 6.5rem);
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  color: #f0fdfa;
+  font-weight: 400;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.7);
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.hero-title-editorial .hero-title-line1 {
+  display: block;
+  white-space: nowrap;
+}
+
+.hero-title-editorial .hero-title-line2 {
+  display: block;
+  font-style: italic;
+  font-weight: 400;
+  color: #f0fdfa;
+  white-space: nowrap;
+}
+
 /* Outer Presentation Frame */
 .gallery-viewport-frame {
   max-width: 1540px;
