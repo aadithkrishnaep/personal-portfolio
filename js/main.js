@@ -183,7 +183,7 @@ function renderStatementAndContact() {
 // 5. Continuous Scroll Controller (Fluid scroll & active slide sync)
 // -------------------------------------------------------------
 let currentSlideIndex = 0;
-const slideIds = ["slide-hero", "slide-about", "slide-clippings", "slide-statement"];
+const slideIds = ["slide-hero", "slide-clippings", "slide-about", "slide-statement"];
 
 function setupSlideSnapController() {
   setupFilterTabs();
