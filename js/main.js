@@ -128,7 +128,7 @@ function renderClippingsGallery(category = "all", searchQuery = "") {
           <!-- Artwork / Clipping Visual -->
           <div class="liquid-glass-frame overflow-hidden mb-3 aspect-[16/10] relative rounded-2xl">
             <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 rounded-2xl" />
-            <div class="absolute bottom-0 inset-x-0 z-10 bg-[#020b14]/15 backdrop-blur-[2px] border-t border-white/25 text-sky-100 text-[10px] px-2.5 py-1 truncate font-mono">
+            <div class="absolute bottom-0 inset-x-0 z-10 bg-white/10 backdrop-blur-md border-t border-white/20 text-sky-100 text-[10px] px-2.5 py-1 truncate font-mono">
               ${item.caption}
             </div>
           </div>
