@@ -66,7 +66,7 @@ function renderAboutContent() {
     disciplinesList.innerHTML = personalInfo.disciplines
       .map(
         (disc) => `
-        <span class="inline-block text-xs font-medium px-2.5 py-1 border border-sky-400/25 bg-[#031526]/80 text-sky-200 rounded-sm">
+        <span class="inline-block text-xs font-medium px-2.5 py-1 border border-sky-400/25 bg-[#031526]/80 text-sky-200 rounded-lg">
           ${disc}
         </span>
       `
@@ -112,7 +112,7 @@ function renderClippingsGallery(category = "all", searchQuery = "") {
   container.innerHTML = filtered
     .map((item) => {
       return `
-      <div class="artwork-container border border-sky-400/20 bg-[#05192d]/70 backdrop-blur-md p-4 flex flex-col justify-between group rounded-sm shadow-md hover:border-sky-400/40" onclick="openClipModal('${item.id}')">
+      <div class="artwork-container border border-sky-400/20 bg-[#05192d]/70 backdrop-blur-md p-4 flex flex-col justify-between group rounded-2xl shadow-md hover:border-sky-400/40" onclick="openClipModal('${item.id}')">
         <div>
           <!-- Date & Publication meta -->
           <div class="text-[10px] uppercase tracking-wider text-sky-200/60 font-medium mb-1.5 flex items-center justify-between">
@@ -126,8 +126,8 @@ function renderClippingsGallery(category = "all", searchQuery = "") {
           </h3>
 
           <!-- Artwork / Clipping Visual -->
-          <div class="overflow-hidden bg-[#071f36] mb-3 aspect-[16/10] relative border border-sky-400/20 rounded-sm">
-            <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+          <div class="overflow-hidden bg-[#071f36] mb-3 aspect-[16/10] relative border border-sky-400/20 rounded-xl">
+            <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 rounded-xl" />
             <div class="absolute bottom-0 inset-x-0 bg-[#020b14]/85 text-sky-200 text-[10px] px-2 py-1 truncate font-mono">
               ${item.caption}
             </div>
@@ -393,7 +393,7 @@ function openModalWithCustomContent(title, subtitle, meta, description, imageUrl
     <div class="relative bg-[#020b14] max-h-[380px] overflow-hidden">
       <img src="${imageUrl}" alt="${title}" class="w-full h-full object-contain mx-auto" />
       <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-[#020b14] via-[#020b14]/75 to-transparent p-4 text-[#f0fdfa]">
-        <span class="text-[10px] uppercase tracking-widest bg-sky-500/20 border border-sky-400/30 px-2 py-0.5 rounded-sm backdrop-blur-sm text-[#38bdf8]">${meta}</span>
+        <span class="text-[10px] uppercase tracking-widest bg-sky-500/20 border border-sky-400/30 px-2 py-0.5 rounded-md backdrop-blur-sm text-[#38bdf8]">${meta}</span>
         <h2 class="font-serif text-2xl md:text-3xl font-bold mt-1 leading-tight text-[#f0fdfa]">${title}</h2>
         <p class="text-xs text-sky-200/80 mt-0.5">${subtitle}</p>
       </div>
@@ -414,7 +414,7 @@ function openModalWithCustomContent(title, subtitle, meta, description, imageUrl
         <div>
           <h4 class="text-[11px] uppercase tracking-widest font-bold text-sky-400/80 mb-2">Disciplines & Index Tokens</h4>
           <div class="flex flex-wrap gap-1.5">
-            ${tags.map((t) => `<span class="text-xs px-2.5 py-1 bg-sky-950/60 border border-sky-400/30 text-sky-200 font-medium rounded-sm">#${t}</span>`).join("")}
+            ${tags.map((t) => `<span class="text-xs px-2.5 py-1 bg-sky-950/60 border border-sky-400/30 text-sky-200 font-medium rounded-md">#${t}</span>`).join("")}
           </div>
         </div>
       `
@@ -430,7 +430,7 @@ function openModalWithCustomContent(title, subtitle, meta, description, imageUrl
         ${
           externalLink
             ? `
-          <a href="${externalLink}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-sky-600 to-cyan-500 hover:from-sky-500 hover:to-cyan-400 text-white transition-all text-xs uppercase tracking-widest font-semibold rounded-sm shadow-md">
+          <a href="${externalLink}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-sky-600 to-cyan-500 hover:from-sky-500 hover:to-cyan-400 text-white transition-all text-xs uppercase tracking-widest font-semibold rounded-xl shadow-md">
             <span>Access Full Work</span>
             <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
           </a>
