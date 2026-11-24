@@ -109,6 +109,18 @@ html, body {
   white-space: nowrap;
 }
 
+/* Hero Date Subtitle */
+.hero-date-subtitle {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: rgba(186, 230, 253, 0.7);
+  text-align: center;
+  margin-top: 2rem;
+  line-height: 1.6;
+}
+
 /* Outer Presentation Frame */
 .gallery-viewport-frame {
   max-width: 1540px;
@@ -431,6 +443,11 @@ html, body {
   }
   .hairline-grid-overlay {
     display: none;
+  }
+  .hero-date-subtitle {
+    font-size: clamp(1rem, 4vw, 1.35rem); /* Half the title size on mobile */
+    letter-spacing: 0.14em;
+    margin-top: 1.25rem;
   }
   .top-menu-btn {
     left: 0;
