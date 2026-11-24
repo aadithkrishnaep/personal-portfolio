@@ -58,7 +58,6 @@ function renderAboutContent() {
   const bioP1 = document.getElementById("about-p1");
   const bioP2 = document.getElementById("about-p2");
   const disciplinesList = document.getElementById("about-disciplines");
-  const aboutArt = document.getElementById("about-featured-artwork");
 
   if (bioP1) bioP1.textContent = personalInfo.biographyParagraph1;
   if (bioP2) bioP2.textContent = personalInfo.biographyParagraph2;
@@ -73,28 +72,6 @@ function renderAboutContent() {
       `
       )
       .join("");
-  }
-
-  if (aboutArt) {
-    const art = (typeof aboutArtwork !== "undefined" && aboutArtwork) ? aboutArtwork : {
-      title: "Video Editor",
-      artist: personalInfo.name || "Aadith Krishna E P",
-      year: "2026",
-      location: personalInfo.location || "Kerala, India",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfLB6HvDTUfwG2Y73c4San1QSaMtJQKUWP-ZxoHLO8fQ&s=10"
-    };
-
-    aboutArt.innerHTML = `
-      <div class="artwork-container group" onclick="openModalWithCustomContent('${art.title}', '${art.artist}, ${art.year}', '${art.location}', 'Featured production and creative work by ${art.artist}.', '${art.image}', '')">
-        <div class="overflow-hidden bg-[#071f36] max-w-[340px] shadow-lg border border-sky-400/25 rounded-sm">
-          <img src="${art.image}" alt="${art.title}" class="w-full aspect-[16/10] object-cover group-hover:scale-105 transition-transform duration-500" />
-        </div>
-        <div class="artwork-caption mt-2">
-          <div class="caption-title">${art.title}</div>
-          <div class="caption-meta">${art.artist}, ${art.year} • ${art.location}</div>
-        </div>
-      </div>
-    `;
   }
 }
 

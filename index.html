@@ -143,8 +143,8 @@
 
         <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 h-full">
 
-          <!-- Left Column (Cols 1-7): Heading, 2-Column Editorial Biography, Featured Artwork -->
-          <div class="lg:col-span-7 flex flex-col justify-between space-y-8 pr-4">
+          <!-- Left Column (Cols 1-7): Heading, 2-Column Editorial Biography -->
+          <div class="lg:col-span-7 flex flex-col justify-start space-y-8 pr-4">
             <div>
               <h2 class="font-serif text-4xl sm:text-5xl md:text-6xl text-[#f0fdfa] font-normal tracking-tight mb-8">
                 About the artist
@@ -160,26 +160,24 @@
                 </p>
               </div>
             </div>
-
-            <!-- Lower featured painting -->
-            <div class="pt-4 border-t border-sky-400/20">
-              <div id="about-featured-artwork"></div>
-            </div>
           </div>
 
           <!-- Right Column (Cols 8-12): Contemporary Discipline Spec -->
           <div class="lg:col-span-5 flex flex-col justify-between lg:border-l lg:border-sky-400/20 lg:pl-10">
-            <div class="artwork-container group mb-6">
-              <div class="overflow-hidden bg-[#071f36] shadow-sm max-w-[340px] ml-auto border border-sky-400/20">
+            <div 
+              class="artwork-container group mb-6 cursor-pointer"
+              onclick="openModalWithCustomContent('Aadith Krishna E P', 'Digital Creator & Video Editor', 'Kerala, India', 'Editorial portrait and creative practice of Aadith Krishna E P.', 'assets/WhatsApp%20Image%202026-11-24%20at%2020.56.12.jpeg', '')"
+            >
+              <div class="overflow-hidden bg-[#071f36] shadow-sm max-w-[340px] ml-auto border border-sky-400/20 rounded-sm">
                 <img 
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeaY34diHjmQJa5n3Kck6XHZ_e1kCVQ0TPh9RwfGvFUw&s=10" 
-                  alt="affitiate" 
-                  class="w-full aspect-[2/3] object-cover group-hover:scale-105 transition-transform duration-500"
+                  src="assets/WhatsApp%20Image%202026-11-24%20at%2020.56.12.jpeg" 
+                  alt="Aadith Krishna E P" 
+                  class="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
               <div class="artwork-caption text-right max-w-[340px] ml-auto mt-2">
-                <div class="caption-title">Affiliate Works</div>
-                <div class="caption-meta">Aadith Krishna E P • 2026</div>
+                <div class="caption-title">Aadith Krishna E P</div>
+                <div class="caption-meta">Creator & Video Editor • 2026</div>
               </div>
             </div>
 
