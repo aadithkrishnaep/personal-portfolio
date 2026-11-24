@@ -52,48 +52,17 @@
   <!-- Presentation Frame / Viewport -->
   <div class="gallery-viewport-frame">
 
-    <!-- ================= FIXED LEFT VERTICAL RAIL ================= -->
-    <aside class="left-nav-rail">
-      <!-- Top: Solid Cyan Square Menu Button (≡) -->
-      <button 
-        id="menu-trigger-btn" 
-        class="menu-trigger-sq" 
-        aria-label="Open Directory Menu"
-        title="Index & Navigation"
-      >
-        <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="3" y1="7" x2="21" y2="7"></line>
-          <line x1="3" y1="12" x2="21" y2="12"></line>
-          <line x1="3" y1="17" x2="21" y2="17"></line>
-        </svg>
-      </button>
-
-      <!-- Center: Editorial Stacked Monogram (A / K) -->
-      <div 
-        class="rail-monogram group" 
-        onclick="scrollToSlide('slide-hero')" 
-        title="Aadith Krishna Portfolio"
-      >
-        <span class="mono-letter group-hover:text-[#38bdf8] transition-colors">A</span>
-        <span class="mono-bar"></span>
-        <span class="mono-letter group-hover:text-[#38bdf8] transition-colors">K</span>
-      </div>
-
-      <!-- Bottom: Rectangular Layout / Spec Icon -->
-      <button 
-        class="rail-icon-bottom" 
-        onclick="scrollToSlide('slide-about')" 
-        aria-label="About the Artist" 
-        title="Exhibition Details"
-      >
-        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <rect x="4" y="5" width="16" height="14" rx="2"></rect>
-          <line x1="9" y1="9" x2="9" y2="15"></line>
-        </svg>
-      </button>
-    </aside>
-
     <!-- ================= FIXED CORNER CONTROLS ================= -->
+    <!-- Top-Left Menu Button (≡) in Hairline Cell -->
+    <button 
+      id="menu-trigger-btn" 
+      class="top-menu-btn" 
+      aria-label="Open Directory Menu"
+      title="Index & Navigation"
+    >
+      <i data-lucide="menu" class="w-4 h-4 text-white"></i>
+    </button>
+
     <!-- Top-Right Search Button (🔍) in Hairline Cell -->
     <button 
       id="search-trigger-btn" 
