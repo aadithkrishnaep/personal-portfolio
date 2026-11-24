@@ -128,7 +128,7 @@ function renderClippingsGallery(category = "all", searchQuery = "") {
           <!-- Artwork / Clipping Visual -->
           <div class="liquid-glass-frame overflow-hidden mb-3 aspect-[16/10] relative rounded-2xl">
             <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 rounded-2xl" />
-            <div class="absolute bottom-0 inset-x-0 z-10 bg-[#020b14]/55 backdrop-blur-md border-t border-white/15 text-sky-100 text-[10px] px-2.5 py-1 truncate font-mono">
+            <div class="absolute bottom-0 inset-x-0 z-10 bg-[#020b14]/30 backdrop-blur-sm border-t border-white/20 text-sky-100 text-[10px] px-2.5 py-1 truncate font-mono">
               ${item.caption}
             </div>
           </div>
@@ -390,7 +390,7 @@ function openModalWithCustomContent(title, subtitle, meta, description, imageUrl
 
   modalBody.innerHTML = `
     <!-- Top Image Feature -->
-    <div class="relative bg-[#020b14]/50 max-h-[380px] overflow-hidden">
+    <div class="relative bg-[#020b14]/20 max-h-[380px] overflow-hidden">
       <img src="${imageUrl}" alt="${title}" class="w-full h-full object-contain mx-auto" />
       <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-[#020b14] via-[#020b14]/75 to-transparent p-4 text-[#f0fdfa]">
         <span class="text-[10px] uppercase tracking-widest liquid-glass-pill px-3 py-1 rounded-full text-[#7dd3fc]">${meta}</span>
