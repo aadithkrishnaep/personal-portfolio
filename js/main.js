@@ -42,8 +42,8 @@ function renderHeroContent() {
   const subtitleEl = document.getElementById("hero-date-range");
   if (titleEl) {
     titleEl.innerHTML = `
-      <span class="hero-title-line1">${personalInfo.exhibitionTitle}</span>
-      <span class="hero-title-line2">${personalInfo.exhibitionSubtitle}</span>
+      <span class="block">${personalInfo.exhibitionTitle}</span>
+      <span class="block italic font-normal text-sky-100 whitespace-nowrap">${personalInfo.exhibitionSubtitle}</span>
     `;
   }
   if (subtitleEl) {
