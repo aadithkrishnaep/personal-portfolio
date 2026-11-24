@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // -------------------------------------------------------------
-// 1. Hero Screen Rendering
+// 1. Hero Screen Rendering (Text Only)
 // -------------------------------------------------------------
 function renderHeroContent() {
   // Title & Dates
@@ -48,72 +48,6 @@ function renderHeroContent() {
   }
   if (subtitleEl) {
     subtitleEl.innerHTML = `${personalInfo.dateRange}`;
-  }
-
-  // Populate Staggered Exhibits
-  const tl = heroExhibits.topLeft;
-  const bl = heroExhibits.bottomLeft;
-  const tr = heroExhibits.topRight;
-  const br = heroExhibits.bottomRight;
-
-  const tlContainer = document.getElementById("hero-exhibit-tl");
-  if (tlContainer) {
-    tlContainer.innerHTML = `
-      <div class="artwork-container cursor-pointer group" onclick="openExhibitDetail('topLeft')">
-        <div class="overflow-hidden bg-[#071f36] max-w-[280px] shadow-lg border border-sky-400/25 rounded-sm">
-          <img src="${tl.image}" alt="${tl.title}" class="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-500" loading="eager" />
-        </div>
-        <div class="artwork-caption mt-2">
-          <div class="caption-title">${tl.title}</div>
-          <div class="caption-meta">${tl.subtitle}</div>
-        </div>
-      </div>
-    `;
-  }
-
-  const blContainer = document.getElementById("hero-exhibit-bl");
-  if (blContainer) {
-    blContainer.innerHTML = `
-      <div class="artwork-container cursor-pointer group" onclick="openExhibitDetail('bottomLeft')">
-        <div class="artwork-caption caption-top mb-2">
-          <div class="caption-title">${bl.title}</div>
-          <div class="caption-meta">${bl.subtitle}</div>
-        </div>
-        <div class="overflow-hidden bg-[#071f36] max-w-[240px] shadow-lg border border-sky-400/25 rounded-sm">
-          <img src="${bl.image}" alt="${bl.title}" class="w-full aspect-[2/3] object-cover group-hover:scale-105 transition-transform duration-500" loading="eager" />
-        </div>
-      </div>
-    `;
-  }
-
-  const trContainer = document.getElementById("hero-exhibit-tr");
-  if (trContainer) {
-    trContainer.innerHTML = `
-      <div class="artwork-container cursor-pointer group" onclick="openExhibitDetail('topRight')">
-        <div class="overflow-hidden bg-[#071f36] max-w-[260px] shadow-lg border border-sky-400/25 rounded-sm">
-          <img src="${tr.image}" alt="${tr.title}" class="w-full aspect-[3/4] object-cover group-hover:scale-105 transition-transform duration-500" loading="eager" />
-        </div>
-        <div class="artwork-caption mt-2">
-          <div class="caption-title">${tr.title}</div>
-          <div class="caption-meta">${tr.subtitle}</div>
-        </div>
-      </div>
-    `;
-  }
-
-  const brContainer = document.getElementById("hero-exhibit-br");
-  if (brContainer) {
-    brContainer.innerHTML = `
-      <div class="artwork-container cursor-pointer group" onclick="openExhibitDetail('bottomRight')">
-        <div class="artwork-caption caption-top mb-2">
-          <div class="caption-title">${br.title}</div>
-          <div class="caption-meta">${br.subtitle}</div>
-        </div>
-        <div class="overflow-hidden bg-[#071f36] max-w-[290px] shadow-lg border border-sky-400/25 rounded-sm">
-          <img src="${br.image}" alt="${br.title}" class="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-500" loading="eager" />
-        </div>
-      </div>
-    `;
   }
 }
 
@@ -269,7 +203,7 @@ function renderStatementAndContact() {
 }
 
 // -------------------------------------------------------------
-// 5. Slide Snap Controller (Navigation by slide & ↓ button)
+// 5. Continuous Scroll Controller (Fluid scroll & active slide sync)
 // -------------------------------------------------------------
 let currentSlideIndex = 0;
 const slideIds = ["slide-hero", "slide-about", "slide-clippings", "slide-statement"];
@@ -281,15 +215,36 @@ function setupSlideSnapController() {
   const scrollDownBtn = document.getElementById("scroll-next-btn");
   if (!deck || !scrollDownBtn) return;
 
-  // Listen to deck scroll to sync current slide index
-  deck.addEventListener("scroll", () => {
-    const scrollPos = deck.scrollTop;
-    const slideHeight = deck.clientHeight;
-    currentSlideIndex = Math.round(scrollPos / slideHeight);
-    updateScrollButtonState();
-  });
+  // Track scroll position to update current slide indicator dynamically
+  const updateActiveSlide = () => {
+    const deckRect = deck.getBoundingClientRect();
+    const deckCenter = deckRect.top + deckRect.height / 2;
 
-  // Clicking bottom-right button advances to next slide or loops to top
+    let closestIdx = 0;
+    let closestDist = Infinity;
+
+    slideIds.forEach((id, idx) => {
+      const el = document.getElementById(id);
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        const slideCenter = rect.top + rect.height / 2;
+        const dist = Math.abs(slideCenter - deckCenter);
+        if (dist < closestDist) {
+          closestDist = dist;
+          closestIdx = idx;
+        }
+      }
+    });
+
+    if (currentSlideIndex !== closestIdx) {
+      currentSlideIndex = closestIdx;
+      updateScrollButtonState();
+    }
+  };
+
+  deck.addEventListener("scroll", updateActiveSlide, { passive: true });
+
+  // Clicking bottom-right button advances smoothly to next slide or loops to top
   scrollDownBtn.addEventListener("click", () => {
     if (currentSlideIndex < slideIds.length - 1) {
       currentSlideIndex += 1;
@@ -301,24 +256,6 @@ function setupSlideSnapController() {
       targetSlide.scrollIntoView({ behavior: "smooth" });
     }
     updateScrollButtonState();
-  });
-
-  // Keyboard navigation
-  window.addEventListener("keydown", (e) => {
-    if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
-    if (e.key === "ArrowDown" || e.key === "PageDown") {
-      e.preventDefault();
-      if (currentSlideIndex < slideIds.length - 1) {
-        currentSlideIndex += 1;
-        document.getElementById(slideIds[currentSlideIndex])?.scrollIntoView({ behavior: "smooth" });
-      }
-    } else if (e.key === "ArrowUp" || e.key === "PageUp") {
-      e.preventDefault();
-      if (currentSlideIndex > 0) {
-        currentSlideIndex -= 1;
-        document.getElementById(slideIds[currentSlideIndex])?.scrollIntoView({ behavior: "smooth" });
-      }
-    }
   });
 }
 

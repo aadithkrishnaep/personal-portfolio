@@ -178,12 +178,11 @@ html, body {
   color: var(--color-rust);
 }
 
-/* Main Content Slide Deck (Scroll-Snap Container) */
+/* Main Content Slide Deck (Continuous Smooth Scroll Container) */
 .slides-deck {
   flex: 1;
   height: 100vh;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
+  overflow-y: auto;
   scroll-behavior: smooth;
   position: relative;
   scrollbar-width: thin;
@@ -205,14 +204,11 @@ html, body {
 .gallery-slide {
   min-height: 100vh;
   width: 100%;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
   position: relative;
   display: flex;
   flex-direction: column;
   background-color: transparent;
   border-bottom: 1px solid var(--color-border);
-  overflow: hidden;
 }
 
 /* Vertical Hairline Columns Overlay */
