@@ -66,7 +66,7 @@ function renderAboutContent() {
     disciplinesList.innerHTML = personalInfo.disciplines
       .map(
         (disc) => `
-        <span class="inline-block text-xs font-medium px-3 py-1 border border-sky-400/25 bg-[#031526]/80 text-sky-200 rounded-full">
+        <span class="inline-block text-xs font-medium px-3 py-1 liquid-glass-pill text-sky-100 rounded-full">
           ${disc}
         </span>
       `
@@ -112,10 +112,10 @@ function renderClippingsGallery(category = "all", searchQuery = "") {
   container.innerHTML = filtered
     .map((item) => {
       return `
-      <div class="artwork-container border border-sky-400/20 bg-[#05192d]/70 backdrop-blur-md p-5 flex flex-col justify-between group rounded-3xl shadow-md hover:border-sky-400/40" onclick="openClipModal('${item.id}')">
+      <div class="artwork-container liquid-glass p-5 flex flex-col justify-between group rounded-3xl" onclick="openClipModal('${item.id}')">
         <div>
           <!-- Date & Publication meta -->
-          <div class="text-[10px] uppercase tracking-wider text-sky-200/60 font-medium mb-1.5 flex items-center justify-between">
+          <div class="text-[10px] uppercase tracking-wider text-sky-200/70 font-medium mb-1.5 flex items-center justify-between">
             <span>${item.date}</span>
             <span class="text-[#38bdf8] font-bold">${item.type}</span>
           </div>
@@ -126,9 +126,9 @@ function renderClippingsGallery(category = "all", searchQuery = "") {
           </h3>
 
           <!-- Artwork / Clipping Visual -->
-          <div class="overflow-hidden bg-[#071f36] mb-3 aspect-[16/10] relative border border-sky-400/20 rounded-2xl">
+          <div class="liquid-glass-frame overflow-hidden mb-3 aspect-[16/10] relative rounded-2xl">
             <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 rounded-2xl" />
-            <div class="absolute bottom-0 inset-x-0 bg-[#020b14]/85 text-sky-200 text-[10px] px-2 py-1 truncate font-mono">
+            <div class="absolute bottom-0 inset-x-0 z-10 bg-[#020b14]/55 backdrop-blur-md border-t border-white/15 text-sky-100 text-[10px] px-2.5 py-1 truncate font-mono">
               ${item.caption}
             </div>
           </div>
@@ -390,10 +390,10 @@ function openModalWithCustomContent(title, subtitle, meta, description, imageUrl
 
   modalBody.innerHTML = `
     <!-- Top Image Feature -->
-    <div class="relative bg-[#020b14] max-h-[380px] overflow-hidden">
+    <div class="relative bg-[#020b14]/50 max-h-[380px] overflow-hidden">
       <img src="${imageUrl}" alt="${title}" class="w-full h-full object-contain mx-auto" />
       <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-[#020b14] via-[#020b14]/75 to-transparent p-4 text-[#f0fdfa]">
-        <span class="text-[10px] uppercase tracking-widest bg-sky-500/20 border border-sky-400/30 px-3 py-1 rounded-full backdrop-blur-sm text-[#38bdf8]">${meta}</span>
+        <span class="text-[10px] uppercase tracking-widest liquid-glass-pill px-3 py-1 rounded-full text-[#7dd3fc]">${meta}</span>
         <h2 class="font-serif text-2xl md:text-3xl font-bold mt-1 leading-tight text-[#f0fdfa]">${title}</h2>
         <p class="text-xs text-sky-200/80 mt-0.5">${subtitle}</p>
       </div>
@@ -414,7 +414,7 @@ function openModalWithCustomContent(title, subtitle, meta, description, imageUrl
         <div>
           <h4 class="text-[11px] uppercase tracking-widest font-bold text-sky-400/80 mb-2">Disciplines & Index Tokens</h4>
           <div class="flex flex-wrap gap-1.5">
-            ${tags.map((t) => `<span class="text-xs px-3 py-1 bg-sky-950/60 border border-sky-400/30 text-sky-200 font-medium rounded-full">#${t}</span>`).join("")}
+            ${tags.map((t) => `<span class="text-xs px-3 py-1 liquid-glass-pill text-sky-100 font-medium rounded-full">#${t}</span>`).join("")}
           </div>
         </div>
       `
@@ -430,7 +430,7 @@ function openModalWithCustomContent(title, subtitle, meta, description, imageUrl
         ${
           externalLink
             ? `
-          <a href="${externalLink}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-sky-600 to-cyan-500 hover:from-sky-500 hover:to-cyan-400 text-white transition-all text-xs uppercase tracking-widest font-semibold rounded-full shadow-md">
+          <a href="${externalLink}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-2.5 liquid-glass-accent text-white text-xs uppercase tracking-widest font-semibold rounded-full">
             <span>Access Full Work</span>
             <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
           </a>
