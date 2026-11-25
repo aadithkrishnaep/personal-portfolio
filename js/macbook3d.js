@@ -37,16 +37,8 @@
     const height = stage.clientHeight || 400;
     renderer.setSize(width, height, false);
 
-    const camera = new THREE.PerspectiveCamera(34, width / height, 0.1, 100);
-    const applyResponsiveFraming = (w, h) => {
-      const aspect = w / Math.max(h, 1);
-      // Widen vertical FOV slightly on narrow portrait screens so the MacBook never clips
-      camera.fov = aspect < 1.15 ? 40 : 34;
-      camera.aspect = aspect;
-      camera.updateProjectionMatrix();
-    };
-    camera.position.set(3.4, 1.9, 4.6);
-    applyResponsiveFraming(width, height);
+    const camera = new THREE.PerspectiveCamera(36, width / height, 0.1, 100);
+    camera.position.set(4.5, 2.5, 6.2);
 
     // Build procedural Studio Equirectangular Environment Map for realistic aluminum reflections
     const envCanvas = document.createElement("canvas");
@@ -191,9 +183,9 @@
     const macbookRoot = new THREE.Group();
     scene.add(macbookRoot);
 
-    // Center vertically around geometric midpoint because open lid extends upward
+    // Center vertically & in depth around exact geometric midpoint so rotating 360deg never clips edges
     const macbookPivot = new THREE.Group();
-    macbookPivot.position.set(0, -0.76, 0.22);
+    macbookPivot.position.set(0, -0.96, 0.305);
     macbookRoot.add(macbookPivot);
 
     // --- A. Unibody Base ---
@@ -373,127 +365,92 @@
     screenTexture.anisotropy = 4;
 
     function drawRetinaScreen(timeSec) {
-      // Deep atmospheric ocean gradient matching portfolio aesthetic
+      // Iconic Apple "hello" colorful flowing gradient ribbon wallpaper
       const bg = sctx.createLinearGradient(0, 0, 1024, 640);
-      bg.addColorStop(0, "#020b14");
-      bg.addColorStop(0.5, "#06203a");
-      bg.addColorStop(1, "#031526");
+      bg.addColorStop(0.0, "#1e1b4b");
+      bg.addColorStop(0.32, "#0369a1");
+      bg.addColorStop(0.68, "#0d9488");
+      bg.addColorStop(1.0, "#312e81");
       sctx.fillStyle = bg;
       sctx.fillRect(0, 0, 1024, 640);
 
-      // Animated soft aurora orbs
-      const shiftX = Math.sin(timeSec * 0.7) * 70;
-      const shiftY = Math.cos(timeSec * 0.5) * 40;
-      const orb1 = sctx.createRadialGradient(
-        340 + shiftX,
-        240 + shiftY,
-        20,
-        340 + shiftX,
-        240 + shiftY,
-        320
-      );
-      orb1.addColorStop(0, "rgba(56, 189, 248, 0.42)");
-      orb1.addColorStop(1, "rgba(56, 189, 248, 0)");
-      sctx.fillStyle = orb1;
-      sctx.fillRect(0, 0, 1024, 640);
+      // Silky flowing spectrum ribbons inspired by Apple's iconic "hello" wallpaper
+      const shift1 = Math.sin(timeSec * 0.55) * 55;
+      const shift2 = Math.cos(timeSec * 0.45) * 45;
 
-      const orb2 = sctx.createRadialGradient(
-        720 - shiftX * 0.7,
-        390 - shiftY * 0.8,
-        20,
-        720 - shiftX * 0.7,
-        390 - shiftY * 0.8,
-        280
-      );
-      orb2.addColorStop(0, "rgba(14, 165, 233, 0.35)");
-      orb2.addColorStop(1, "rgba(14, 165, 233, 0)");
-      sctx.fillStyle = orb2;
-      sctx.fillRect(0, 0, 1024, 640);
+      const drawRibbonGlow = (cx, cy, r, c0, c1) => {
+        const g = sctx.createRadialGradient(cx, cy, r * 0.08, cx, cy, r);
+        g.addColorStop(0, c0);
+        g.addColorStop(1, c1);
+        sctx.fillStyle = g;
+        sctx.fillRect(0, 0, 1024, 640);
+      };
 
-      // macOS style translucent menu bar
-      sctx.fillStyle = "rgba(255, 255, 255, 0.08)";
-      sctx.fillRect(0, 0, 1024, 34);
-      sctx.fillStyle = "rgba(240, 253, 250, 0.88)";
-      sctx.font = "600 14px Inter, system-ui, sans-serif";
-      sctx.fillText("Aadith Krishna  •  Studio", 26, 22);
-      sctx.fillStyle = "rgba(186, 230, 253, 0.75)";
-      sctx.font = "500 13px Inter, system-ui, sans-serif";
-      sctx.fillText("DaVinci  •  After Effects  •  Blender", 740, 22);
+      drawRibbonGlow(210 + shift1, 180 + shift2, 360, "rgba(56, 189, 248, 0.72)", "rgba(56, 189, 248, 0)");
+      drawRibbonGlow(520 - shift1 * 0.6, 480 - shift2, 340, "rgba(244, 114, 182, 0.55)", "rgba(244, 114, 182, 0)");
+      drawRibbonGlow(820 + shift2, 220 - shift1 * 0.5, 340, "rgba(251, 146, 60, 0.50)", "rgba(251, 146, 60, 0)");
+      drawRibbonGlow(760 - shift1, 500 + shift2 * 0.6, 320, "rgba(167, 139, 250, 0.55)", "rgba(167, 139, 250, 0)");
+      drawRibbonGlow(480, 310, 380, "rgba(34, 211, 238, 0.30)", "rgba(34, 211, 238, 0)");
 
-      // Center frosted glass studio window
+      // Subtle curved translucent wave sweep
       sctx.save();
-      sctx.fillStyle = "rgba(255, 255, 255, 0.08)";
-      sctx.strokeStyle = "rgba(255, 255, 255, 0.28)";
-      sctx.lineWidth = 2;
+      sctx.globalAlpha = 0.24;
+      const waveGrad = sctx.createLinearGradient(0, 140, 1024, 520);
+      waveGrad.addColorStop(0, "#38bdf8");
+      waveGrad.addColorStop(0.5, "#f472b6");
+      waveGrad.addColorStop(1, "#fb923c");
+      sctx.fillStyle = waveGrad;
       sctx.beginPath();
-      if (sctx.roundRect) {
-        sctx.roundRect(142, 118, 740, 380, 28);
-      } else {
-        sctx.rect(142, 118, 740, 380);
-      }
+      sctx.moveTo(0, 340 + shift2 * 0.4);
+      sctx.bezierCurveTo(280, 180 - shift1 * 0.5, 620, 510 + shift1 * 0.4, 1024, 280 - shift2 * 0.5);
+      sctx.lineTo(1024, 640);
+      sctx.lineTo(0, 640);
+      sctx.closePath();
       sctx.fill();
-      sctx.stroke();
       sctx.restore();
 
-      // Traffic light dots
-      ["#f87171", "#fbbf24", "#34d399"].forEach((col, i) => {
-        sctx.fillStyle = col;
-        sctx.beginPath();
-        sctx.arc(178 + i * 22, 148, 6, 0, Math.PI * 2);
-        sctx.fill();
-      });
+      // Iconic flowing cursive "hello" script centered cleanly on the Retina screen
+      sctx.save();
+      const scale = 1.65;
+      const helloWidth = 390 * scale;
+      const helloHeight = 126 * scale;
+      sctx.translate((1024 - helloWidth) / 2, (640 - helloHeight) / 2 + 6);
+      sctx.scale(scale, scale);
 
-      // Editorial headline inside screen
-      sctx.fillStyle = "#f0fdfa";
-      sctx.font = "italic 600 46px Georgia, serif";
-      sctx.fillText("Visual Storytelling & Motion", 190, 240);
+      sctx.strokeStyle = "#ffffff";
+      sctx.lineWidth = 10.5;
+      sctx.lineCap = "round";
+      sctx.lineJoin = "round";
+      sctx.shadowColor = "rgba(255, 255, 255, 0.65)";
+      sctx.shadowBlur = 18;
 
-      sctx.fillStyle = "rgba(186, 230, 253, 0.80)";
-      sctx.font = "400 18px Inter, system-ui, sans-serif";
-      sctx.fillText("PRECISION EDITING  •  VFX  •  3D BLENDER", 190, 280);
-
-      // Animated motion waveform / timeline preview bars
-      const barCount = 34;
-      for (let i = 0; i < barCount; i++) {
-        const bx = 190 + i * 19;
-        const wave = Math.sin(timeSec * 2.2 + i * 0.42) * 0.5 + 0.5;
-        const bh = 18 + wave * 58;
-        const by = 435 - bh;
-        sctx.fillStyle =
-          i % 3 === 0 ? "rgba(56, 189, 248, 0.85)" : "rgba(186, 230, 253, 0.45)";
-        sctx.beginPath();
-        if (sctx.roundRect) {
-          sctx.roundRect(bx, by, 11, bh, 5);
-        } else {
-          sctx.rect(bx, by, 11, bh);
-        }
-        sctx.fill();
-      }
-
-      // macOS Dock pill
-      sctx.fillStyle = "rgba(255, 255, 255, 0.12)";
-      sctx.strokeStyle = "rgba(255, 255, 255, 0.25)";
-      sctx.lineWidth = 1.5;
       sctx.beginPath();
-      if (sctx.roundRect) {
-        sctx.roundRect(322, 558, 380, 52, 26);
-      } else {
-        sctx.rect(322, 558, 380, 52);
-      }
-      sctx.fill();
+      // 'h'
+      sctx.moveTo(18, 92);
+      sctx.bezierCurveTo(48, 72, 82, 26, 72, 14);
+      sctx.bezierCurveTo(62, 4, 48, 22, 44, 114);
+      sctx.bezierCurveTo(44, 92, 68, 66, 86, 68);
+      sctx.bezierCurveTo(100, 70, 92, 108, 108, 112);
+      // 'e'
+      sctx.bezierCurveTo(128, 112, 154, 92, 150, 74);
+      sctx.bezierCurveTo(146, 60, 124, 64, 122, 92);
+      sctx.bezierCurveTo(120, 114, 148, 118, 172, 96);
+      // 'l'
+      sctx.bezierCurveTo(194, 72, 216, 26, 206, 14);
+      sctx.bezierCurveTo(196, 4, 184, 24, 184, 96);
+      sctx.bezierCurveTo(184, 116, 204, 116, 226, 96);
+      // 'l'
+      sctx.bezierCurveTo(248, 72, 270, 26, 260, 14);
+      sctx.bezierCurveTo(250, 4, 238, 24, 238, 96);
+      sctx.bezierCurveTo(238, 116, 258, 116, 282, 94);
+      // 'o' + graceful curl exit
+      sctx.bezierCurveTo(294, 78, 308, 64, 328, 68);
+      sctx.bezierCurveTo(306, 64, 292, 82, 296, 100);
+      sctx.bezierCurveTo(302, 116, 328, 116, 338, 96);
+      sctx.bezierCurveTo(344, 82, 336, 68, 328, 68);
+      sctx.bezierCurveTo(338, 78, 356, 86, 378, 74);
       sctx.stroke();
-
-      const dockColors = ["#38bdf8", "#0ea5e9", "#818cf8", "#34d399", "#f472b6", "#fbbf24"];
-      dockColors.forEach((dc, idx) => {
-        sctx.fillStyle = dc;
-        sctx.beginPath();
-        if (sctx.roundRect) {
-          sctx.roundRect(354 + idx * 54, 568, 32, 32, 9);
-        } else {
-          sctx.rect(354 + idx * 54, 568, 32, 32);
-        }
-        sctx.fill();
-      });
+      sctx.restore();
 
       screenTexture.needsUpdate = true;
     }
@@ -582,10 +539,31 @@
     controls.enablePan = false;
     controls.autoRotate = true;
     controls.autoRotateSpeed = 1.5;
-    controls.minPolarAngle = 0.12;
-    controls.maxPolarAngle = Math.PI - 0.12;
-    controls.target.set(0, 0.12, 0);
-    controls.update();
+    controls.minPolarAngle = 0.08;
+    controls.maxPolarAngle = Math.PI - 0.08;
+    controls.target.set(0, 0, 0);
+
+    // Guarantee full bounding sphere (R ~ 2.26 + margin) fits cleanly with no edge clipping at any rotation
+    const applyResponsiveFraming = (w, h) => {
+      const aspect = w / Math.max(h, 1);
+      camera.fov = aspect < 1.1 ? 40 : 36;
+      camera.aspect = aspect;
+      camera.updateProjectionMatrix();
+
+      const vHalf = THREE.MathUtils.degToRad(camera.fov * 0.5);
+      const hHalf = Math.atan(Math.tan(vHalf) * aspect);
+      const minHalf = Math.min(vHalf, hHalf);
+      const safeDist = 2.75 / Math.sin(minHalf);
+
+      const dir = camera.position.clone().sub(controls.target);
+      if (dir.lengthSq() < 0.0001) dir.set(0.55, 0.31, 0.77);
+      dir.normalize().multiplyScalar(safeDist);
+      camera.position.copy(controls.target).add(dir);
+      controls.minDistance = safeDist;
+      controls.maxDistance = safeDist;
+      controls.update();
+    };
+    applyResponsiveFraming(width, height);
 
     // Pause idle spin only while actively dragging, resume smoothly after release
     let isUserInteracting = false;
