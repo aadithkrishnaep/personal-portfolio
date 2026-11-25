@@ -192,8 +192,9 @@
           <div class="hairline-col"></div>
         </div>
 
-        <div class="relative z-10 max-w-4xl w-full text-left py-6">
-          <div>
+        <div class="relative z-10 w-full max-w-7xl grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start py-6">
+          <!-- Left Column: Top-Left Aligned Biography -->
+          <div class="lg:col-span-7 text-left">
             <h2 class="font-serif text-4xl sm:text-5xl md:text-6xl text-[#f0fdfa] font-normal tracking-tight mb-8">
               About the artist
             </h2>
@@ -206,6 +207,16 @@
               <p id="about-p2">
                 <!-- Injected via main.js -->
               </p>
+            </div>
+          </div>
+
+          <!-- Right Column: Interactive 3D MacBook Pro Showcase -->
+          <div class="lg:col-span-5 w-full flex flex-col items-center justify-center relative">
+            <div id="macbook-stage" class="relative w-full h-[320px] sm:h-[380px] lg:h-[440px] cursor-grab active:cursor-grabbing">
+              <canvas id="macbook-canvas" class="w-full h-full block"></canvas>
+              <div class="pointer-events-none absolute bottom-1 left-1/2 -translate-x-1/2 liquid-glass-pill px-3.5 py-1 rounded-full text-[10px] uppercase tracking-widest text-sky-200/80 whitespace-nowrap">
+                Drag to rotate 360°
+              </div>
             </div>
           </div>
         </div>
@@ -460,8 +471,13 @@
     </div>
   </div>
 
+  <!-- Three.js & 3D MacBook Showcase -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
   <!-- Scripts -->
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/macbook3d.js"></script>
 </body>
 </html>
